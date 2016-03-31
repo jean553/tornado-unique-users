@@ -1,0 +1,6 @@
+.vagrant/
+.viminfo
+.zcompdump
+.zshrc
+.gitconfig
+*.pyc
