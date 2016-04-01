@@ -1,5 +1,6 @@
 """Main module and URLs handler"""
 
+import pytest
 import tornado.ioloop
 import tornado.web
 
@@ -13,7 +14,7 @@ def make_application():
     """Get the tornado application routes"""
     return tornado.web.Application(URL_PATTERNS)
 
-if __name__ == 'main':
+if __name__ == '__main__':
     APP = make_application()
     APP.listen(8080)
     tornado.ioloop.IOLoop.current().start()
