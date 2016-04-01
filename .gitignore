@@ -4,3 +4,6 @@
 .zshrc
 .gitconfig
 *.pyc
+.pip/
+.cache/
+.tox/
