@@ -1,6 +1,5 @@
 """Main module and URLs handler"""
 
-import pytest
 import tornado.ioloop
 import tornado.web
 
