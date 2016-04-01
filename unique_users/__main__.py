@@ -1,7 +1,19 @@
+"""Main module and URLs handler"""
+
 import tornado.ioloop
+import tornado.web
 
-from app import make_app
+from unique_users.handlers.UserHandlerAsync import UserHandlerAsync
 
-app = make_app()
-app.listen(8080)
-tornado.ioloop.IOLoop.current().start()
+URL_PATTERNS = [
+    ("/user", UserHandlerAsync),
+]
+
+def make_application():
+    """Get the tornado application routes"""
+    return tornado.web.Application(URL_PATTERNS)
+
+if __name__ == 'main':
+    APP = make_application()
+    APP.listen(8080)
+    tornado.ioloop.IOLoop.current().start()
