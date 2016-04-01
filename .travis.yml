@@ -1,0 +1,7 @@
+language: python
+dist: trusty
+before_script:
+    - pythom -m "unique_users"
+    - cd unique_users
+script:
+    - tox
