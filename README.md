@@ -16,7 +16,13 @@ vagrant up --provider docker --no-parallel
 
 ```
 vagrant ssh dev
-sudo pip install tornado
+sudo pip install tornado psycopg2 alembic
+```
+
+The postgresql-devel is required for the Python module psycopg2.
+
+```
+sudo apt-get install libpq-dev
 ```
 
 ## Run
@@ -45,4 +51,10 @@ coverage run -m source=unique_users/ unique_users
 Check the coverage:
 ```
 coverage report -m
+```
+
+## Migrations
+
+```
+alembic upgrade head
 ```

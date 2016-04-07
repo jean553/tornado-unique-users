@@ -3,15 +3,20 @@
 PROJECT = "tornado_unique_users"
 PROJECT_DIR = "/home/vagrant/unique_users"
 UID = Process.euid
+DB_USER = "vagrant"
+DB_PASSWORD = "vagrant"
+DB_HOST = "db"
+DB_NAME = "vagrant"
+
 Vagrant.configure(2) do |config|
   config.vm.define "db" do |app|
     app.vm.provider "docker" do |d|
       d.image = "postgres:9.4"
       d.name = "#{PROJECT}_db"
       d.env = {
-        "POSTGRES_PASSWORD" => "vagrant",
-        "POSTGRES_USER" => "vagrant",
-        "POSTGRES_DB" => "vagrant",
+        "POSTGRES_PASSWORD" => DB_PASSWORD,
+        "POSTGRES_USER" => DB_USER,
+        "POSTGRES_DB" => DB_NAME,
       }
     end
   end
@@ -28,7 +33,10 @@ Vagrant.configure(2) do |config|
       ]
       d.env = {
         'HOST_USER_UID' => UID,
-        'DB_HOST' => "db",
+        'DB_USER' => DB_USER,
+        'DB_PASSWORD' => DB_PASSWORD,
+        'DB_HOST' => DB_HOST,
+        'DB_NAME' => DB_NAME,
         # when doing vagrant ssh, you will be automatically
         # put in that directory
         'PROJECT_DIR' => "#{PROJECT_DIR}"
