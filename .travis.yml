@@ -1,7 +1,16 @@
 language: python
 dist: trusty
+env:
+    - DB_HOST=localhost DB_PASSWORD=vagrant DB_USER=vagrant DB_NAME-vagrant
+services:
+    - postgresql
 before_script:
-    - sudo pip install tox
+    - sudo apt-get install libpq-dev python-dev -y
+    - psql -c "create database vagrant;" -U postgres
+    - psql -c "create user vagrant with password 'vagrant';" -U postgres
+    - psql -c "grant all privileges on database vagrant to vagrant;" -U postgres
+    - pip install tox psycopg2 alembic
+    - alembic upgrade head
     - python -m "unique_users" &
     - cd unique_users
 script:
