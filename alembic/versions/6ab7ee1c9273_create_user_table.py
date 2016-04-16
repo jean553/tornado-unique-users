@@ -18,7 +18,7 @@ def upgrade():
     conn = op.get_bind()
     conn.execute(' \
         CREATE TABLE users ( \
-            id INTEGER PRIMARY KEY, \
+            id SERIAL PRIMARY KEY, \
             name VARCHAR(255), \
             application VARCHAR(255), \
             date TIMESTAMP \
