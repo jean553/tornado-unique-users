@@ -16,5 +16,6 @@ before_script:
     - cd unique_users
 script:
     - tox
+    - coverage run -m source=unique_users/ unique_users
 after_success:
     coveralls
