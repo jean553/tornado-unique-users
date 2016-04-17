@@ -16,6 +16,6 @@ before_script:
     - cd unique_users
 script:
     - tox
-    - coverage run --source=yourpackagename setup.py test
+    - coverage run --source=unique_users setup.py test
 after_success:
     coveralls
