@@ -13,9 +13,9 @@ before_script:
     - pip install python-coveralls #only for travis
     - alembic upgrade head
     - python -m "unique_users" &
-    - cd unique_users
 script:
-    - tox
     - coverage run -m unique_users
+    - cd unique_users
+    - tox
 after_success:
     coveralls
