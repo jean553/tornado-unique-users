@@ -1,1 +1,4 @@
 tornado == 4.3
+tox == 2.3.1
+alembic == 0.8.6
+psycopg2 == 2.6

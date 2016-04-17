@@ -9,7 +9,7 @@ before_script:
     - psql -c "create database vagrant;" -U postgres
     - psql -c "create user vagrant with password 'vagrant';" -U postgres
     - psql -c "grant all privileges on database vagrant to vagrant;" -U postgres
-    - pip install tox psycopg2 alembic
+    - pip install -r requirements.txt
     - alembic upgrade head
     - python -m "unique_users" &
     - cd unique_users
