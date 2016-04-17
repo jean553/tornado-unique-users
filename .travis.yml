@@ -10,8 +10,12 @@ before_script:
     - psql -c "create user vagrant with password 'vagrant';" -U postgres
     - psql -c "grant all privileges on database vagrant to vagrant;" -U postgres
     - pip install -r requirements.txt
+    - pip install coveralls #only for travis
     - alembic upgrade head
     - python -m "unique_users" &
     - cd unique_users
 script:
     - tox
+    - coverage run --source=yourpackagename setup.py test
+after_success:
+    coveralls
