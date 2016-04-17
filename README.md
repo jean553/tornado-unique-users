@@ -16,7 +16,7 @@ vagrant up --provider docker --no-parallel
 
 ```
 vagrant ssh dev
-sudo pip install tornado psycopg2 alembic
+sudo pip install -r requirements.txt
 ```
 
 The postgresql-devel is required for the Python module psycopg2.

@@ -19,7 +19,7 @@ class UserHandlerAsync(tornado.web.RequestHandler):
                 host=os.getenv('DB_HOST', 'db'),
             )
         except psycopg2.Error:
-            print 'cannot connect to database'
+            print('cannot connect to database')
 
         self.cursor = self.conn.cursor()
 
@@ -27,16 +27,17 @@ class UserHandlerAsync(tornado.web.RequestHandler):
         """Handles the user creation."""
 
         data = json.loads(self.request.body)
-        self.cursor.execute(" \
-            INSERT INTO users ( \
-                name, \
-                application, \
-                date \
-            ) VALUES ( \
-                %s, \
-                %s, \
-                CURRENT_TIMESTAMP \
-            )", (data['name'], data['application']))
+        self.cursor.execute("""
+            INSERT INTO users (
+                name,
+                application,
+                date
+            ) VALUES (
+                %(name)s,
+                %(application)s,
+                CURRENT_TIMESTAMP
+            )
+        """, data)
         self.set_status(201)
 
     def on_finish(self):
