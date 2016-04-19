@@ -1,16 +1,12 @@
 """Main module and URLs handler"""
 
-import signal, time
-
+import signal, time, psycopg2, os
 import tornado.ioloop
 import tornado.web
 import tornado.httpserver
 
 from unique_users.handlers.UserHandlerAsync import UserHandlerAsync
 
-URL_PATTERNS = [
-    ("/user", UserHandlerAsync),
-]
 SHUTDOWN_SECONDS_TIMEOUT = 5
 
 def make_safe_shutdown(application):
@@ -40,15 +36,44 @@ def make_safe_shutdown(application):
 
         shutdown()
 
+        cursor = connection.cursor()
+        connection.commit()
+        cursor.close()
+        connection.close()
+
     signal.signal(signal.SIGINT, safe_shutdown)
     signal.signal(signal.SIGTERM, safe_shutdown)
 
 def make_application():
     """Get the tornado application routes"""
-    return tornado.httpserver.HTTPServer(tornado.web.Application(URL_PATTERNS))
+
+    global connection
+
+    try:
+        connection = psycopg2.connect(
+            database=os.getenv('DB_NAME', 'vagrant'),
+            user=os.getenv('DB_USER', 'vagrant'),
+            password=os.getenv('DB_PASSWORD', 'vagrant'),
+            host=os.getenv('DB_HOST', 'db'),
+        )
+
+        handlersParams = dict(connection=connection)
+
+        URL_PATTERNS = [
+            ("/user", UserHandlerAsync, handlersParams),
+        ]
+
+        return tornado.httpserver.HTTPServer(tornado.web.Application(URL_PATTERNS))
+
+    except:
+        print('Error when establishing database connection')
 
 if __name__ == '__main__':
     APP = make_application()
+
+    if APP is None:
+        exit(0)
+
     APP.listen(8080)
     make_safe_shutdown(APP)
     tornado.ioloop.IOLoop.current().start()
