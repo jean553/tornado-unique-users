@@ -18,10 +18,9 @@ class UserHandlerAsync(tornado.web.RequestHandler):
                 password=os.getenv('DB_PASSWORD', 'vagrant'),
                 host=os.getenv('DB_HOST', 'db'),
             )
+            self.cursor = self.conn.cursor()
         except psycopg2.Error:
-            print('cannot connect to database')
-
-        self.cursor = self.conn.cursor()
+            self.send_error()
 
     def post(self):
         """Handles the user creation."""
@@ -42,6 +41,9 @@ class UserHandlerAsync(tornado.web.RequestHandler):
 
     def on_finish(self):
         """Close the connection to the database."""
+
+        if 'conn' not in locals():
+            return
 
         self.conn.commit()
         self.cursor.close()
