@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jean553/tornado-unique-users.svg?branch=master)](https://travis-ci.org/jean553/tornado-unique-users)
+
 #tornado-unique-users
 
 REST API to handle unique users in a set of users, uploaded with username, app name and date.
