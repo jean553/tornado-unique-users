@@ -4,7 +4,7 @@
 
 REST API to handle unique users in a set of users, uploaded with username, app name and date.
 
-The API can add users in the set and returns the amount of unique users by time.
+The API can add users in the set and returns the amount of unique users by given application name. This is possible to filter by month.
 
 Use Tornado, PostgreSQL, Vagrant, Docker. The REST API uses asynchrone features of Tornado.
 
