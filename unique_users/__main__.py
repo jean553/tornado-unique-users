@@ -60,6 +60,7 @@ def make_application():
 
         URL_PATTERNS = [
             ("/user", UserHandlerAsync, handlersParams),
+            ("/user/application/([^/]+)/month/([^/]+)", UserHandlerAsync, handlersParams),
         ]
 
         return tornado.httpserver.HTTPServer(tornado.web.Application(URL_PATTERNS))

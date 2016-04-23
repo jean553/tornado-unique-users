@@ -35,8 +35,28 @@ class UserHandlerAsync(tornado.web.RequestHandler):
         self.cursor.execute(sql, data)
         self.set_status(201)
 
+    def get(self, application, month):
+        """Get unique users amount by application name and month number."""
+
+        data = dict(
+            application=application,
+            month=month
+        )
+        self.cursor.execute("""
+            SELECT COUNT(DISTINCT(name))
+            FROM users
+            WHERE
+            application = %(application)s AND
+            EXTRACT(MONTH FROM date) = %(month)s
+        """, data)
+        self.set_status(200)
+
+        result = self.cursor.fetchone()
+        self.write(str(result[0]))
+
     def on_finish(self):
         """Called after response is sent back."""
+
         self.connection.commit()
 
     def data_received(self, chunk):
