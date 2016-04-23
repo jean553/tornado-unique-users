@@ -29,5 +29,9 @@ class UserHandlerAsync(tornado.web.RequestHandler):
         """, data)
         self.set_status(201)
 
+    def on_finish(self):
+        """Called after response is sent back."""
+        self.connection.commit()
+
     def data_received(self, chunk):
         pass
