@@ -16,7 +16,7 @@ class UserHandlerAsync(tornado.web.RequestHandler):
         """Handles the user creation."""
 
         data = json.loads(self.request.body)
-        self.cursor.execute("""
+        sql = """
             INSERT INTO users (
                 name,
                 application,
@@ -24,9 +24,15 @@ class UserHandlerAsync(tornado.web.RequestHandler):
             ) VALUES (
                 %(name)s,
                 %(application)s,
-                CURRENT_TIMESTAMP
-            )
-        """, data)
+        """
+
+        if 'date' not in data:
+            sql += 'CURRENT_TIMESTAMP'
+        else:
+            sql += '(TIMESTAMP %(date)s)'
+        sql += ')'
+
+        self.cursor.execute(sql, data)
         self.set_status(201)
 
     def on_finish(self):
