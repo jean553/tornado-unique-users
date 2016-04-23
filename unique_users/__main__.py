@@ -37,7 +37,6 @@ def make_safe_shutdown(application):
         shutdown()
 
         cursor = connection.cursor()
-        connection.commit()
         cursor.close()
         connection.close()
 
